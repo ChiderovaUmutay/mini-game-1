@@ -7,6 +7,9 @@ hero_info_messages: dict = {
     "hero_defends_himself": "Герой защищается и активирует защитное поле, сила которого равна {}!\n",
     "hero_deactivate_protected_field": "Герой снял защитное поле!\n",
     "hero_repelled_attack": "Герой отразил атаку защитным полем!\n",
+    "hero_injected_adrenaline": "Герой вколол адреналин!\n",
+    "adrenaline_qty_info": "Количество шприца с адреналином в рюкзаке равно {}!\n",
+    "adrenaline_ended": "Шприцы с адреналином закончились!\nГерой делает повторный ход.\n"
 }
 
 robot_info_messages: dict = {

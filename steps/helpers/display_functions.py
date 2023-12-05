@@ -1,21 +1,20 @@
 from helpers.info_messages import hero_info_messages, robot_info_messages
 from helpers.variables import HERO_WAS_INJURED_EVENT, \
     HERO_FINISHED_EVENT, \
-    HERO_DEFENDS_HIMSELF_EVENT, \
     ROBOT_WAS_INJURED_EVENT, \
     ROBOT_FINISHED_EVENT
 
 def display_hero_info(event: str, args=None) -> None or str:
-    if event == HERO_WAS_INJURED_EVENT:
-        display_character_info(args,
-                               character_messages_dict=hero_info_messages,
-                               consts=[HERO_WAS_INJURED_EVENT, HERO_FINISHED_EVENT])
-    elif event == HERO_FINISHED_EVENT:
-        hero_hp = args
-        return hero_info_messages.get(HERO_FINISHED_EVENT).format(hero_hp)
-    elif event == HERO_DEFENDS_HIMSELF_EVENT:
-        defence = args
-        print(hero_info_messages.get(HERO_DEFENDS_HIMSELF_EVENT).format(defence))
+    if args is not None:
+        if event == HERO_WAS_INJURED_EVENT:
+            display_character_info(args,
+                                   character_messages_dict=hero_info_messages,
+                                   consts=[HERO_WAS_INJURED_EVENT, HERO_FINISHED_EVENT])
+        elif event == HERO_FINISHED_EVENT:
+            hero_hp = args
+            return hero_info_messages.get(HERO_FINISHED_EVENT).format(hero_hp)
+        else:
+            print(hero_info_messages.get(event).format(args))
     else:
         print(hero_info_messages.get(event))
 

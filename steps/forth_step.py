@@ -11,6 +11,9 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     HERO_DEFENDS_HIMSELF_EVENT, \
     HERO_DEACTIVATE_PROTECTED_FIELD_EVENT, \
     HERO_WAS_INJURED_EVENT, \
+    HERO_REPELLED_ATTACK_EVENT, \
+    HERO_INJECTED_ADRENALINE_EVENT, \
+    ADRENALINE_QTY_INFO, \
     ROBOT_FINISHED_EVENT, \
     ROBOT_CHARACTER_NAME, \
     ROBOT_MISSES_TURN_EVENT, \
@@ -18,7 +21,8 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     ROBOT_USE_REGULAR_CARTRIDGES_EVENT, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
-    ROBOT_WAS_INJURED_EVENT, HERO_REPELLED_ATTACK, ROBOT_THROW_POISON_GRENADE
+    ROBOT_WAS_INJURED_EVENT, \
+    ROBOT_THROW_POISON_GRENADE, ADRENALINE_ENDED
 
 
 def run() -> None:
@@ -51,25 +55,28 @@ def get_characters_data() -> (dict, dict):
         "defence": 100,
         "gun": 250,
         "protective_field": 150,  # защитное поле
-        "has_shield": False
+        "has_shield": False,
+        "adrenaline": 1,
+        "adrenaline_power": 500
     }
     return robot, hero
 
 
 def hero_turn(hero: dict, robot: dict) -> (dict, str):
-    actions = [hero_attack, hero_defence, hero_pass]
+    actions = [hero_attack, hero_defence, hero_pass, hero_injected_adrenaline]
     action = random.choice(actions)
     if len(inspect.getfullargspec(action).args) == 2:
-        robot = action(hero, robot)
-        return robot, ROBOT_CHARACTER_NAME
+        character_data, character_name = action(hero, robot)
+        return character_data, character_name
     elif len(inspect.getfullargspec(action).args) == 1:
         hero = action(hero)
+        return hero, HERO_CHARACTER_NAME
     elif len(inspect.getfullargspec(action).args) == 0:
         action()
-    return hero, HERO_CHARACTER_NAME
+        return hero, HERO_CHARACTER_NAME
 
 
-def hero_attack(hero: dict, robot: dict) -> dict:
+def hero_attack(hero: dict, robot: dict) -> (dict, str):
     hit_probability = random.randint(1, 100)
     if hit_probability >= 25:
         hero_gun = hero.get("gun")
@@ -79,7 +86,7 @@ def hero_attack(hero: dict, robot: dict) -> dict:
         robot = modify_robot_health(robot, -damage)
     else:
         display_hero_info(HERO_MISSED_EVENT)
-    return robot
+    return robot, ROBOT_CHARACTER_NAME
 
 
 def hero_defence(hero: dict) -> dict:
@@ -88,6 +95,20 @@ def hero_defence(hero: dict) -> dict:
 
 def hero_pass() -> None:
     display_hero_info(HERO_MISSES_TURN_EVENT)
+
+
+def hero_injected_adrenaline(hero, robot):
+    adrenaline = hero.get("adrenaline", 0)
+    if adrenaline > 0:
+        hero = modify_hero_health(hero, hero.get("adrenaline_power"))
+        hero["adrenaline"] -= 1
+        display_hero_info(HERO_INJECTED_ADRENALINE_EVENT)
+        print(display_hero_info(HERO_FINISHED_EVENT, hero.get("hp")))
+        display_hero_info(ADRENALINE_QTY_INFO, hero.get("adrenaline"))
+        return hero, HERO_CHARACTER_NAME
+    else:
+        display_hero_info(ADRENALINE_ENDED)
+        return hero_turn(hero, robot)
 
 
 def equip_shield(hero: dict) -> dict:
@@ -146,7 +167,7 @@ def robot_throw_grenade(robot: dict, hero: dict):
             damage = robot.get("gun") * 2
             hero = modify_hero_health(hero, -damage)
         else:
-            display_hero_info(HERO_REPELLED_ATTACK)
+            display_hero_info(HERO_REPELLED_ATTACK_EVENT)
     else:
         display_robot_info(ROBOT_MISSED_EVENT)
     return hero
