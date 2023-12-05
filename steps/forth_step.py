@@ -1,5 +1,6 @@
 import inspect
 import random
+import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
 from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE
@@ -29,6 +30,7 @@ def run() -> None:
     robot, hero = get_characters_data()
     while hero.get("hp") > 0:
         character_data, character_name = hero_turn(hero, robot)
+        time.sleep(10)
         if character_name == ROBOT_CHARACTER_NAME:
             robot = character_data
         else:
@@ -36,6 +38,7 @@ def run() -> None:
         if robot.get("hp") > 0:
             hero = robot_turn(robot, hero)
             remove_shield(hero) if hero.get("has_shield") is True else None
+            time.sleep(10)
         else:
             break
     hero_health_info = display_hero_info(HERO_FINISHED_EVENT, hero.get("hp") if hero.get("hp") >= 0 else 0)
@@ -112,14 +115,14 @@ def hero_injected_adrenaline(hero, robot):
 
 
 def equip_shield(hero: dict) -> dict:
-    hero["defence"] = hero.get("protective_field") + hero.get("defence")
+    hero["defence"] += hero.get("protective_field")
     hero["has_shield"] = True
     display_hero_info(HERO_DEFENDS_HIMSELF_EVENT, hero.get("defence"))
     return hero
 
 
 def remove_shield(hero: dict) -> dict:
-    hero["defence"] = hero.get("defence") - hero.get("protective_field")
+    hero["defence"] -= hero.get("protective_field")
     hero["has_shield"] = False
     display_hero_info(HERO_DEACTIVATE_PROTECTED_FIELD_EVENT)
     return hero
@@ -130,7 +133,7 @@ def robot_turn(robot: dict, hero: dict) -> dict:
     if action_probability <= 33:
         actions = [robot_use_homing_missiles, robot_use_regular_cartridges, robot_throw_grenade, robot_jam]
         action = random.choice(actions)
-        if inspect.getfullargspec(action).args:
+        if len(inspect.getfullargspec(action).args) > 0:
             hero = action(robot, hero)
         else:
             action()
@@ -145,6 +148,8 @@ def robot_use_homing_missiles(robot: dict, hero: dict) -> dict:
     damage = robot_gun + one_third_robot_gun - hero.get("defence")
     display_robot_info(ROBOT_USE_HOMING_MISSILES_EVENT)
     hero = modify_hero_health(hero, -damage)
+    data_for_message = [damage, hero.get("hp") if hero.get("hp") >= 0 else 0]
+    display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     return hero
 
 
@@ -154,6 +159,8 @@ def robot_use_regular_cartridges(robot: dict, hero: dict) -> dict:
         damage = robot.get("gun") - hero.get("defence")
         display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
         hero = modify_hero_health(hero, -damage)
+        data_for_message = [damage, hero.get("hp") if hero.get("hp") >= 0 else 0]
+        display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     else:
         display_robot_info(ROBOT_MISSED_EVENT)
     return hero
@@ -166,6 +173,8 @@ def robot_throw_grenade(robot: dict, hero: dict):
         if hero.get("has_shield") is False:
             damage = robot.get("gun") * 2
             hero = modify_hero_health(hero, -damage)
+            data_for_message = [damage, hero.get("hp") if hero.get("hp") >= 0 else 0]
+            display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
         else:
             display_hero_info(HERO_REPELLED_ATTACK_EVENT)
     else:
@@ -178,16 +187,14 @@ def robot_jam() -> None:
 
 
 def modify_robot_health(robot: dict, dmg: int) -> dict:
-    robot["hp"] = robot.get("hp") + dmg
+    robot["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
     display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
 
 
 def modify_hero_health(hero: dict, dmg: int) -> dict:
-    hero["hp"] = hero.get("hp") + dmg
-    data_for_message = [str(dmg).replace("-", ""), hero.get("hp") if hero.get("hp") >= 0 else 0]
-    display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
+    hero["hp"] += dmg
     return hero
 
 
