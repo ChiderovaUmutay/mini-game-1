@@ -75,14 +75,14 @@ def hero_pass() -> None:
 
 
 def equip_shield(hero: dict) -> dict:
-    hero["defence"] = hero.get("protective_field") + hero.get("defence")
+    hero["defence"] += hero.get("protective_field")
     hero["has_shield"] = True
     display_hero_info(HERO_DEFENDS_HIMSELF_EVENT, hero.get("defence"))
     return hero
 
 
 def remove_shield(hero: dict) -> dict:
-    hero["defence"] = hero.get("defence") - hero.get("protective_field")
+    hero["defence"] -= hero.get("protective_field")
     hero["has_shield"] = False
     display_hero_info(HERO_DEACTIVATE_PROTECTED_FIELD_EVENT)
     return hero
@@ -127,14 +127,14 @@ def robot_jam() -> None:
 
 
 def modify_robot_health(robot: dict, dmg: int) -> dict:
-    robot["hp"] = robot.get("hp") + dmg
+    robot["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
     display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
 
 
 def modify_hero_health(hero: dict, dmg: int) -> dict:
-    hero["hp"] = hero.get("hp") + dmg
+    hero["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), hero.get("hp") if hero.get("hp") >= 0 else 0]
     display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     return hero

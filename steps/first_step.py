@@ -17,7 +17,7 @@ def run() -> None:
         else:
             display_hero_info(HERO_MISSED_EVENT)
 def modify_health(robot: dict, dmg: int) -> dict:
-    robot["hp"] = robot.get("hp") + dmg
+    robot["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
     display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
