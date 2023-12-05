@@ -25,7 +25,7 @@ def run() -> None:
     robot, hero = get_characters_data()
     while hero.get("hp") > 0:
         character_data, character_name = hero_turn(hero, robot)
-        if character_name == "robot":
+        if character_name == ROBOT_CHARACTER_NAME:
             robot = character_data
         else:
             hero = character_data
@@ -61,12 +61,12 @@ def hero_turn(hero: dict, robot: dict) -> (dict, str):
     action = random.choice(actions)
     if len(inspect.getfullargspec(action).args) == 2:
         robot = action(hero, robot)
-        return robot, "robot"
+        return robot, ROBOT_CHARACTER_NAME
     elif len(inspect.getfullargspec(action).args) == 1:
         hero = action(hero)
     elif len(inspect.getfullargspec(action).args) == 0:
         action()
-    return hero, "hero"
+    return hero, HERO_CHARACTER_NAME
 
 
 def hero_attack(hero: dict, robot: dict) -> dict:
