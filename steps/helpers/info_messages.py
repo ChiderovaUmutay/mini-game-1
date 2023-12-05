@@ -13,8 +13,8 @@ robot_info_messages: dict = {
     "robot_health_info": "Остаток здоровья у робота составляет {} ед.\n",
     "robot_missed": "Робот промазал!\n",
     "robot_misses_turn": "Робот пропускает ход!\n",
-    "robot_use_homing_missiles": "Робот использовал самонаводящиеся ракеты!\n",
-    "robot_use_regular_cartridges": "Робот использовал патроны!\n",
+    "robot_use_homing_missiles": "Робот использует самонаводящиеся ракеты!\n",
+    "robot_use_regular_cartridges": "Робот использует патроны!\n",
     "robot_jammed": "Робот заклинил!\n"
 }
 
