@@ -1,7 +1,7 @@
 import random
 
 
-def run():
+def run() -> None:
     robot, hero = get_characters_data()
     while robot.get("hp") > 0:
         hit_probability = random.randint(1, 100)
@@ -15,7 +15,7 @@ def run():
             print("The hero didn't hit\n\n")
 
 
-def get_characters_data():
+def get_characters_data() -> (dict, dict):
     robot = {
         "hp": 1300,
         "defence": 120,
@@ -30,12 +30,12 @@ def get_characters_data():
     return robot, hero
 
 
-def modify_health(robot, dmg):
+def modify_health(robot: dict, dmg: int) -> dict:
     robot["hp"] = robot.get("hp") + dmg
     return robot
 
 
-def display_robot_info(hp, damage):
+def display_robot_info(hp: int, damage: int) -> None:
     message = f"HIT HIT HIT\n" \
               f"Робот получил {damage} ед. урона\n" \
               f"Остаток здоровье робота составляет {hp} ед.\n"
