@@ -47,7 +47,6 @@ def hero_turn(hero: dict, robot: dict) -> dict:
         display_hero_info(HERO_ATTACKS_EVENT)
         robot = modify_robot_health(robot, -damage)
     else:
-        print("The hero didn't hit\n\n")
         display_hero_info(HERO_MISSED_EVENT)
     return robot
 
