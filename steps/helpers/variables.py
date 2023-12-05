@@ -20,3 +20,19 @@ ROBOT_USE_HOMING_MISSILES_EVENT = "robot_use_homing_missiles"
 ROBOT_USE_REGULAR_CARTRIDGES_EVENT = "robot_use_regular_cartridges"
 ROBOT_THROW_POISON_GRENADE = "robot_throw_poison_grenade"
 ROBOT_JAMMED_EVENT = "robot_jammed"
+
+robot_data = {
+    "hp": 1300,  # жизненная энергия, запас здоровья
+    "defence": 120,  # защита, броня
+    "gun": 300  # оружие
+}
+
+hero_data = {
+    "hp": 2000,
+    "defence": 100,
+    "gun": 250,
+    "protective_field": 150,  # защитное поле
+    "has_shield": False,
+    "adrenaline": 1,
+    "adrenaline_power": 500
+}

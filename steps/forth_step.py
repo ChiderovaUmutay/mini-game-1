@@ -23,11 +23,11 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
     ROBOT_WAS_INJURED_EVENT, \
-    ROBOT_THROW_POISON_GRENADE, ADRENALINE_ENDED
+    ROBOT_THROW_POISON_GRENADE, ADRENALINE_ENDED, robot_data, hero_data
 
 
 def run() -> None:
-    robot, hero = get_characters_data()
+    robot, hero = robot_data, hero_data
     while hero.get("hp") > 0:
         character_data, character_name = hero_turn(hero, robot)
         time.sleep(10)
@@ -45,24 +45,6 @@ def run() -> None:
     robot_health_info = display_robot_info(ROBOT_FINISHED_EVENT, robot.get("hp") if robot.get("hp") >= 0 else 0)
     winner_character = ROBOT_CHARACTER_NAME if robot.get('hp') > 0 else HERO_CHARACTER_NAME
     print(f'{GAME_RESULTS_MESSAGE}{hero_health_info}{robot_health_info}{WIN_MESSAGE.format(winner_character)}')
-
-
-def get_characters_data() -> (dict, dict):
-    robot = {
-        "hp": 1300,  # жизненная энергия, запас здоровья
-        "defence": 120,  # защита, броня
-        "gun": 300  # оружие
-    }
-    hero = {
-        "hp": 2000,
-        "defence": 100,
-        "gun": 250,
-        "protective_field": 150,  # защитное поле
-        "has_shield": False,
-        "adrenaline": 1,
-        "adrenaline_power": 500
-    }
-    return robot, hero
 
 
 def hero_turn(hero: dict, robot: dict) -> (dict, str):
