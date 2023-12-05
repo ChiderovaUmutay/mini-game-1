@@ -1,5 +1,8 @@
 import random
 
+from display_functions import display_hero_info, display_robot_info
+from variables import HERO_MISSED_EVENT, HERO_ATTACKS_EVENT, ROBOT_WAS_INJURED_EVENT
+
 
 def run() -> None:
     robot, hero = get_characters_data()
@@ -9,10 +12,10 @@ def run() -> None:
             hero_gun = hero.get("gun")
             robot_defence = robot.get("defence")
             damage = hero_gun - robot_defence
+            display_hero_info(HERO_ATTACKS_EVENT)
             robot = modify_health(robot, -damage)
-            display_robot_info(robot.get("hp"), damage)
         else:
-            print("The hero didn't hit\n\n")
+            display_hero_info(HERO_MISSED_EVENT)
 
 
 def get_characters_data() -> (dict, dict):
@@ -32,15 +35,9 @@ def get_characters_data() -> (dict, dict):
 
 def modify_health(robot: dict, dmg: int) -> dict:
     robot["hp"] = robot.get("hp") + dmg
+    data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
+    display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
-
-
-def display_robot_info(hp: int, damage: int) -> None:
-    message = f"HIT HIT HIT\n" \
-              f"Робот получил {damage} ед. урона\n" \
-              f"Остаток здоровье робота составляет {hp} ед.\n"
-    message += "\nGame over!" if hp == 0 else "\n"
-    print(message)
 
 if __name__ == "__main__":
     run()
