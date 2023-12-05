@@ -1,6 +1,14 @@
 import inspect
 import random
 
+from display_functions import display_hero_info, display_robot_info
+from info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE
+from variables import HERO_FINISHED_EVENT, ROBOT_FINISHED_EVENT, ROBOT_CHARACTER_NAME, HERO_CHARACTER_NAME, \
+    HERO_ATTACKS_EVENT, HERO_MISSED_EVENT, ROBOT_USE_HOMING_MISSILES_EVENT, ROBOT_MISSES_TURN_EVENT, \
+    ROBOT_USE_REGULAR_CARTRIDGES_EVENT, ROBOT_MISSED_EVENT, ROBOT_JAMMED_EVENT, ROBOT_WAS_INJURED_EVENT, \
+    HERO_WAS_INJURED_EVENT
+
+
 def run() -> None:
     robot, hero = get_characters_data()
     while hero.get("hp") > 0:
@@ -9,11 +17,10 @@ def run() -> None:
             hero = robot_turn(robot, hero)
         else:
             break
-    hero_health_info = get_character_health_info_message(hero.get("hp"), character="героя")
-    robot_health_info = get_character_health_info_message(robot.get("hp"), character="робота")
-    winner_character = 'Робот' if robot.get('hp') > 0 else 'Герой'
-    win_message = f"{winner_character} победил!!!"
-    print(f'\n{hero_health_info}\n{robot_health_info}\n{win_message}')
+    hero_health_info = display_hero_info(HERO_FINISHED_EVENT, hero.get("hp") if hero.get("hp") >= 0 else 0)
+    robot_health_info = display_robot_info(ROBOT_FINISHED_EVENT, robot.get("hp") if robot.get("hp") >= 0 else 0)
+    winner_character = ROBOT_CHARACTER_NAME if robot.get('hp') > 0 else HERO_CHARACTER_NAME
+    print(f'{GAME_RESULTS_MESSAGE}{hero_health_info}{robot_health_info}{WIN_MESSAGE.format(winner_character)}')
 
 
 def get_characters_data() -> (dict, dict):
@@ -37,21 +44,25 @@ def hero_turn(hero: dict, robot: dict) -> dict:
         hero_gun = hero.get("gun")
         robot_defence = robot.get("defence")
         damage = hero_gun - robot_defence
+        display_hero_info(HERO_ATTACKS_EVENT)
         robot = modify_robot_health(robot, -damage)
     else:
         print("The hero didn't hit\n\n")
+        display_hero_info(HERO_MISSED_EVENT)
     return robot
 
 
 def robot_turn(robot: dict, hero: dict) -> dict:
     action_probability = random.randint(1, 100)
     if action_probability <= 33:
-        actions = [use_homing_missiles, use_regular_cartridges, jam]
+        actions = [use_homing_missiles, use_regular_cartridges, robot_jam]
         action = random.choice(actions)
         if inspect.getfullargspec(action).args:
             hero = action(robot, hero)
         else:
             action()
+    else:
+        display_robot_info(ROBOT_MISSES_TURN_EVENT)
     return hero
 
 
@@ -60,7 +71,7 @@ def use_homing_missiles(robot: dict, hero: dict) -> dict:
     one_third_robot_gun = (robot_gun / 30) * 100
     hero_defence = hero.get("defence")
     damage = robot_gun + one_third_robot_gun - hero_defence
-    print("Робот использовал самонаводящиеся ракеты")
+    display_robot_info(ROBOT_USE_HOMING_MISSILES_EVENT)
     hero = modify_hero_health(hero, -damage)
     return hero
 
@@ -71,42 +82,29 @@ def use_regular_cartridges(robot: dict, hero: dict) -> dict:
         robot_gun = robot.get("gun")
         hero_defence = hero.get("defence")
         damage = robot_gun - hero_defence
-        print("Робот использовал патроны")
+        display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
         hero = modify_hero_health(hero, -damage)
     else:
-        print("Робот промазал\n\n")
+        display_robot_info(ROBOT_MISSED_EVENT)
     return hero
 
 
-def jam() -> None:
-    print("Робот заклинил\n\n")
+def robot_jam() -> None:
+    display_robot_info(ROBOT_JAMMED_EVENT)
 
 
 def modify_robot_health(robot: dict, dmg: int) -> dict:
     robot["hp"] = robot.get("hp") + dmg
-    display_character_info(robot.get("hp"), str(dmg).replace("-", ""), character=["Робот", "робота"])
+    data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
+    display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
 
 
 def modify_hero_health(hero: dict, dmg: int) -> dict:
     hero["hp"] = hero.get("hp") + dmg
-    display_character_info(hero.get("hp"), str(dmg).replace("-", ""), character=["Герой", "героя"])
+    data_for_message = [str(dmg).replace("-", ""), hero.get("hp") if hero.get("hp") >= 0 else 0]
+    display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     return hero
-
-
-def display_character_info(hp: int, damage: str, character: list) -> None:
-    nominative_case, genitive_case = character[0], character[1]
-    character_health_info: str = get_character_health_info_message(hp, genitive_case)
-    message = f'HIT HIT HIT\n' \
-              f'"{nominative_case} получил {damage} ед. урона"\n' \
-              f'{character_health_info}'
-    message += "\nGame over!" if hp <= 0 else "\n\n"
-    print(message)
-
-
-def get_character_health_info_message(hp: int, character: str) -> str:
-    character_hp = str(hp)
-    return f'"Остаток здоровья у {character} составляет {character_hp if character_hp.startswith("-") is False else 0} ед."'
 
 
 if __name__ == "__main__":
