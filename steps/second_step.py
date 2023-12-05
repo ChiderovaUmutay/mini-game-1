@@ -1,5 +1,6 @@
 import inspect
 import random
+import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
 from helpers.info_messages import  GAME_RESULTS_MESSAGE, WIN_MESSAGE
@@ -22,8 +23,10 @@ def run() -> None:
     robot, hero = robot_data, hero_data
     while hero.get("hp") > 0:
         robot = hero_turn(hero, robot)
+        time.sleep(5)
         if robot.get("hp") > 0:
             hero = robot_turn(robot, hero)
+            time.sleep(5)
         else:
             break
     hero_health_info = display_hero_info(HERO_FINISHED_EVENT, hero.get("hp") if hero.get("hp") >= 0 else 0)

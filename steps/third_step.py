@@ -1,5 +1,6 @@
 import inspect
 import random
+import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
 from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE
@@ -50,6 +51,7 @@ def hero_turn(hero: dict, robot: dict) -> (dict, str):
         hero = action(hero)
     elif len(inspect.getfullargspec(action).args) == 0:
         action()
+    time.sleep(5)
     return hero, HERO_CHARACTER_NAME
 
 
@@ -99,6 +101,7 @@ def robot_turn(robot: dict, hero: dict) -> dict:
             action()
     else:
         display_robot_info(ROBOT_MISSES_TURN_EVENT)
+    time.sleep(5)
     return hero
 
 

@@ -30,7 +30,6 @@ def run() -> None:
     robot, hero = robot_data, hero_data
     while hero.get("hp") > 0:
         character_data, character_name = hero_turn(hero, robot)
-        time.sleep(10)
         if character_name == ROBOT_CHARACTER_NAME:
             robot = character_data
         else:
@@ -38,7 +37,6 @@ def run() -> None:
         if robot.get("hp") > 0:
             hero = robot_turn(robot, hero)
             remove_shield(hero) if hero.get("has_shield") is True else None
-            time.sleep(10)
         else:
             break
     hero_health_info = display_hero_info(HERO_FINISHED_EVENT, round(hero.get("hp")) if hero.get("hp") >= 0 else 0)
@@ -52,12 +50,15 @@ def hero_turn(hero: dict, robot: dict) -> (dict, str):
     action = random.choice(actions)
     if len(inspect.getfullargspec(action).args) == 2:
         character_data, character_name = action(hero, robot)
+        time.sleep(5)
         return character_data, character_name
     elif len(inspect.getfullargspec(action).args) == 1:
         hero = action(hero)
+        time.sleep(5)
         return hero, HERO_CHARACTER_NAME
     elif len(inspect.getfullargspec(action).args) == 0:
         action()
+        time.sleep(5)
         return hero, HERO_CHARACTER_NAME
 
 
@@ -121,6 +122,7 @@ def robot_turn(robot: dict, hero: dict) -> dict:
             action()
     else:
         display_robot_info(ROBOT_MISSES_TURN_EVENT)
+    time.sleep(5)
     return hero
 
 

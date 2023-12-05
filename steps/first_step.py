@@ -1,4 +1,5 @@
 import random
+import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
 from helpers.variables import HERO_ATTACKS_EVENT, HERO_MISSED_EVENT, ROBOT_WAS_INJURED_EVENT, robot_data, hero_data
@@ -16,6 +17,7 @@ def run() -> None:
             robot = modify_health(robot, -damage)
         else:
             display_hero_info(HERO_MISSED_EVENT)
+        time.sleep(5)
 def modify_health(robot: dict, dmg: int) -> dict:
     robot["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
