@@ -41,8 +41,8 @@ def run() -> None:
             time.sleep(10)
         else:
             break
-    hero_health_info = display_hero_info(HERO_FINISHED_EVENT, hero.get("hp") if hero.get("hp") >= 0 else 0)
-    robot_health_info = display_robot_info(ROBOT_FINISHED_EVENT, robot.get("hp") if robot.get("hp") >= 0 else 0)
+    hero_health_info = display_hero_info(HERO_FINISHED_EVENT, round(hero.get("hp")) if hero.get("hp") >= 0 else 0)
+    robot_health_info = display_robot_info(ROBOT_FINISHED_EVENT, round(robot.get("hp")) if robot.get("hp") >= 0 else 0)
     winner_character = ROBOT_CHARACTER_NAME if robot.get('hp') > 0 else HERO_CHARACTER_NAME
     print(f'{GAME_RESULTS_MESSAGE}{hero_health_info}{robot_health_info}{WIN_MESSAGE.format(winner_character)}')
 
