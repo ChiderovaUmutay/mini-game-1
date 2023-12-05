@@ -1,37 +1,29 @@
 import inspect
 import random
 
-from display_functions import display_hero_info, display_robot_info
-from info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE
-from variables import HERO_WAS_INJURED_EVENT, \
-    HERO_FINISHED_EVENT, \
-    HERO_MISSED_EVENT, \
-    HERO_MISSES_TURN_EVENT, \
-    HERO_DEFENDS_HIMSELF_EVENT, \
-    HERO_DEACTIVATE_PROTECTED_FIELD_EVENT, \
-    ROBOT_WAS_INJURED_EVENT, \
-    ROBOT_FINISHED_EVENT, \
-    ROBOT_MISSED_EVENT, \
-    ROBOT_MISSES_TURN_EVENT, \
+from helpers.display_functions import display_hero_info, display_robot_info
+from helpers.info_messages import  GAME_RESULTS_MESSAGE, WIN_MESSAGE
+from helpers.variables import  HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
+    HERO_ATTACKS_EVENT, \
+    HERO_MISSED_EVENT, \
+    HERO_WAS_INJURED_EVENT, \
+    ROBOT_FINISHED_EVENT, \
     ROBOT_CHARACTER_NAME, \
+    ROBOT_MISSES_TURN_EVENT, \
     ROBOT_USE_HOMING_MISSILES_EVENT, \
     ROBOT_USE_REGULAR_CARTRIDGES_EVENT, \
+    ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
-    HERO_ATTACKS_EVENT
+    ROBOT_WAS_INJURED_EVENT
 
 
 def run() -> None:
     robot, hero = get_characters_data()
     while hero.get("hp") > 0:
-        character_data, character_name = hero_turn(hero, robot)
-        if character_name == "robot":
-            robot = character_data
-        else:
-            hero = character_data
+        robot = hero_turn(hero, robot)
         if robot.get("hp") > 0:
             hero = robot_turn(robot, hero)
-            remove_shield(hero) if hero.get("has_shield") is True else None
         else:
             break
     hero_health_info = display_hero_info(HERO_FINISHED_EVENT, hero.get("hp") if hero.get("hp") >= 0 else 0)
@@ -50,26 +42,12 @@ def get_characters_data() -> (dict, dict):
         "hp": 2000,
         "defence": 100,
         "gun": 250,
-        "protective_field": 150,  # защитное поле
-        "has_shield": False
+        "protective_field": 150  # защитное поле
     }
     return robot, hero
 
 
-def hero_turn(hero: dict, robot: dict) -> (dict, str):
-    actions = [hero_attack, hero_defence, hero_pass]
-    action = random.choice(actions)
-    if len(inspect.getfullargspec(action).args) == 2:
-        robot = action(hero, robot)
-        return robot, "robot"
-    elif len(inspect.getfullargspec(action).args) == 1:
-        hero = action(hero)
-    elif len(inspect.getfullargspec(action).args) == 0:
-        action()
-    return hero, "hero"
-
-
-def hero_attack(hero: dict, robot: dict) -> dict:
+def hero_turn(hero: dict, robot: dict) -> dict:
     hit_probability = random.randint(1, 100)
     if hit_probability >= 25:
         hero_gun = hero.get("gun")
@@ -82,32 +60,10 @@ def hero_attack(hero: dict, robot: dict) -> dict:
     return robot
 
 
-def hero_defence(hero: dict) -> dict:
-    return equip_shield(hero)
-
-
-def hero_pass() -> None:
-    display_hero_info(HERO_MISSES_TURN_EVENT)
-
-
-def equip_shield(hero: dict) -> dict:
-    hero["defence"] = hero.get("protective_field") + hero.get("defence")
-    hero["has_shield"] = True
-    display_hero_info(HERO_DEFENDS_HIMSELF_EVENT, hero.get("defence"))
-    return hero
-
-
-def remove_shield(hero: dict) -> dict:
-    hero["defence"] = hero.get("defence") - hero.get("protective_field")
-    hero["has_shield"] = False
-    display_hero_info(HERO_DEACTIVATE_PROTECTED_FIELD_EVENT)
-    return hero
-
-
 def robot_turn(robot: dict, hero: dict) -> dict:
     action_probability = random.randint(1, 100)
     if action_probability <= 33:
-        actions = [robot_use_homing_missiles, robot_use_regular_cartridges, robot_jam]
+        actions = [use_homing_missiles, use_regular_cartridges, robot_jam]
         action = random.choice(actions)
         if inspect.getfullargspec(action).args:
             hero = action(robot, hero)
@@ -118,19 +74,22 @@ def robot_turn(robot: dict, hero: dict) -> dict:
     return hero
 
 
-def robot_use_homing_missiles(robot: dict, hero: dict) -> dict:
+def use_homing_missiles(robot: dict, hero: dict) -> dict:
     robot_gun = robot.get("gun")
     one_third_robot_gun = (robot_gun / 30) * 100
-    damage = robot_gun + one_third_robot_gun - hero.get("defence")
+    hero_defence = hero.get("defence")
+    damage = robot_gun + one_third_robot_gun - hero_defence
     display_robot_info(ROBOT_USE_HOMING_MISSILES_EVENT)
     hero = modify_hero_health(hero, -damage)
     return hero
 
 
-def robot_use_regular_cartridges(robot: dict, hero: dict) -> dict:
+def use_regular_cartridges(robot: dict, hero: dict) -> dict:
     hit_probability = random.randint(1, 100)
     if hit_probability >= 50:
-        damage = robot.get("gun") - hero.get("defence")
+        robot_gun = robot.get("gun")
+        hero_defence = hero.get("defence")
+        damage = robot_gun - hero_defence
         display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
         hero = modify_hero_health(hero, -damage)
     else:

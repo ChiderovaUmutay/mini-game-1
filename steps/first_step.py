@@ -1,8 +1,7 @@
 import random
 
-from display_functions import display_hero_info, display_robot_info
-from variables import HERO_MISSED_EVENT, HERO_ATTACKS_EVENT, ROBOT_WAS_INJURED_EVENT
-
+from helpers.display_functions import display_hero_info, display_robot_info
+from helpers.variables import HERO_ATTACKS_EVENT, HERO_MISSED_EVENT, ROBOT_WAS_INJURED_EVENT
 
 def run() -> None:
     robot, hero = get_characters_data()
