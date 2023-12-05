@@ -6,6 +6,7 @@ hero_info_messages: dict = {
     "hero_attacks": "Герой атакует!\n",
     "hero_defends_himself": "Герой защищается и активирует защитное поле, сила которого равна {}!\n",
     "hero_deactivate_protected_field": "Герой снял защитное поле!\n",
+    "hero_repelled_attack": "Герой отразил атаку защитным полем!\n",
 }
 
 robot_info_messages: dict = {
@@ -15,6 +16,7 @@ robot_info_messages: dict = {
     "robot_misses_turn": "Робот пропускает ход!\n",
     "robot_use_homing_missiles": "Робот использует самонаводящиеся ракеты!\n",
     "robot_use_regular_cartridges": "Робот использует патроны!\n",
+    "robot_throw_poison_grenade": "Робот бросил отравляющую гранату!\n",
     "robot_jammed": "Робот заклинил!\n"
 }
 
