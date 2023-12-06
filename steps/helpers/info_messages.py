@@ -23,9 +23,10 @@ robot_info_messages: dict = {
     "robot_health_info": "🤖💊 HEALTH INFO: The robot's remaining health is {} units.\n",
 }
 
-WELCOME_MESSAGE = f"{'-' * 30}👽 🆚 🤖{'-' * 30}\n"
+WELCOME_MESSAGE = f"{'=' * 30}👽 🆚 🤖{'=' * 30}\n"
 FAREWELL_MESSAGE = "\nThe game has stopped.\nGood luck👋🏻"
 INPUT_MESSAGE = "🕹 Enter one of actions ({}):\n"
 REPEAT_INPUT_MESSAGE = "🙋🏻 Please enter an action from the list provided."
-GAME_RESULTS_MESSAGE = f"{'-' * 23}GAME RESULTS{'-' * 23}\n"
-WIN_MESSAGE = f"{'-' * 24}" + "{} WON🏅" + f"{'-' * 24}\n"
+GAME_RESULTS_MESSAGE = f"{'=' * 23}GAME RESULTS{'=' * 23}\n"
+WIN_MESSAGE = f"{'=' * 24}" + "{} WON🏅" + f"{'=' * 24}\n"
+ROUND_INFO = f"{'-' * 10}" + "ROUND #{}" + f"{'-' * 10}\n"

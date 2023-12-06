@@ -8,7 +8,8 @@ from helpers.info_messages import GAME_RESULTS_MESSAGE, \
     REPEAT_INPUT_MESSAGE, \
     INPUT_MESSAGE, \
     WELCOME_MESSAGE, \
-    FAREWELL_MESSAGE
+    FAREWELL_MESSAGE, \
+    ROUND_INFO
 from helpers.variables import robot_data, hero_data, \
     HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
@@ -34,7 +35,11 @@ from helpers.variables import robot_data, hero_data, \
 def run() -> None:
     print(WELCOME_MESSAGE)
     robot, hero = robot_data, hero_data
+    round_count = 0
     while hero.get("hp") > 0:
+        round_count += 1
+        time.sleep(1)
+        print(ROUND_INFO.format(round_count))
         character_data, character_name = hero_turn(hero, robot)
         if character_name == ROBOT_CHARACTER_NAME:
             robot = character_data

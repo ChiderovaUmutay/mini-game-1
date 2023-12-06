@@ -3,7 +3,7 @@ import random
 import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
-from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, FAREWELL_MESSAGE, WELCOME_MESSAGE
+from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, FAREWELL_MESSAGE, WELCOME_MESSAGE, ROUND_INFO
 from helpers.variables import HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
@@ -22,7 +22,11 @@ from helpers.variables import HERO_FINISHED_EVENT, \
 def run() -> None:
     print(WELCOME_MESSAGE)
     robot, hero = robot_data, hero_data
+    round_count = 0
     while hero.get("hp") > 0:
+        round_count += 1
+        time.sleep(1)
+        print(ROUND_INFO.format(round_count))
         robot = hero_turn(hero, robot)
         time.sleep(5)
         if robot.get("hp") > 0:
@@ -93,6 +97,7 @@ def robot_jam() -> None:
 def modify_robot_health(robot: dict, dmg: int) -> dict:
     robot["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
+    time.sleep(1)
     display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
 
@@ -100,6 +105,7 @@ def modify_robot_health(robot: dict, dmg: int) -> dict:
 def modify_hero_health(hero: dict, dmg: int) -> dict:
     hero["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), hero.get("hp") if hero.get("hp") >= 0 else 0]
+    time.sleep(1)
     display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     return hero
 
