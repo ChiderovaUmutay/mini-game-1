@@ -4,12 +4,12 @@ import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
 from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, FAREWELL_MESSAGE, WELCOME_MESSAGE, ROUND_INFO
-from helpers.variables import HERO_FINISHED_EVENT, \
+from helpers.variables import HERO_HEALTH_INFO, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
     HERO_MISSED_EVENT, \
     HERO_WAS_INJURED_EVENT, \
-    ROBOT_FINISHED_EVENT, \
+    ROBOT_HEALTH_INFO, \
     ROBOT_CHARACTER_NAME, \
     ROBOT_MISSES_TURN_EVENT, \
     ROBOT_USE_HOMING_MISSILES_EVENT, \
@@ -28,14 +28,12 @@ def run() -> None:
         time.sleep(1)
         print(ROUND_INFO.format(round_count))
         robot = hero_turn(hero, robot)
-        time.sleep(5)
         if robot.get("hp") > 0:
             hero = robot_turn(robot, hero)
-            time.sleep(5)
         else:
             break
-    hero_health_info = display_hero_info(HERO_FINISHED_EVENT, hero.get("hp") if hero.get("hp") >= 0 else 0)
-    robot_health_info = display_robot_info(ROBOT_FINISHED_EVENT, robot.get("hp") if robot.get("hp") >= 0 else 0)
+    hero_health_info = display_hero_info(HERO_HEALTH_INFO, hero.get("hp") if hero.get("hp") >= 0 else 0)
+    robot_health_info = display_robot_info(ROBOT_HEALTH_INFO, robot.get("hp") if robot.get("hp") >= 0 else 0)
     winner_character = ROBOT_CHARACTER_NAME if robot.get('hp') > 0 else HERO_CHARACTER_NAME
     print(f'{GAME_RESULTS_MESSAGE}{hero_health_info}{robot_health_info}{WIN_MESSAGE.format(winner_character)}')
 
@@ -97,7 +95,6 @@ def robot_jam() -> None:
 def modify_robot_health(robot: dict, dmg: int) -> dict:
     robot["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
-    time.sleep(1)
     display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
 
@@ -105,7 +102,6 @@ def modify_robot_health(robot: dict, dmg: int) -> dict:
 def modify_hero_health(hero: dict, dmg: int) -> dict:
     hero["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), hero.get("hp") if hero.get("hp") >= 0 else 0]
-    time.sleep(1)
     display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     return hero
 

@@ -11,7 +11,7 @@ from helpers.info_messages import GAME_RESULTS_MESSAGE, \
     FAREWELL_MESSAGE, \
     ROUND_INFO
 from helpers.variables import robot_data, hero_data,\
-    HERO_FINISHED_EVENT, \
+    HERO_HEALTH_INFO, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
     HERO_MISSED_EVENT, \
@@ -27,7 +27,7 @@ from helpers.variables import robot_data, hero_data,\
     HERO_INJECTING_ADRENALINE_ACTION, \
     ADRENALINE_QTY_INFO, \
     ADRENALINE_ENDED_INFO, \
-    ROBOT_FINISHED_EVENT, \
+    ROBOT_HEALTH_INFO, \
     ROBOT_CHARACTER_NAME, \
     ROBOT_MISSES_TURN_EVENT, \
     ROBOT_USE_HOMING_MISSILES_EVENT, \
@@ -56,8 +56,8 @@ def run() -> None:
             remove_shield(hero) if hero.get("has_shield") is True else None
         else:
             break
-    hero_health_info = display_hero_info(HERO_FINISHED_EVENT, round(hero.get("hp")) if hero.get("hp") >= 0 else 0)
-    robot_health_info = display_robot_info(ROBOT_FINISHED_EVENT, round(robot.get("hp")) if robot.get("hp") >= 0 else 0)
+    hero_health_info = display_hero_info(HERO_HEALTH_INFO, round(hero.get("hp")) if hero.get("hp") >= 0 else 0)
+    robot_health_info = display_robot_info(ROBOT_HEALTH_INFO, round(robot.get("hp")) if robot.get("hp") >= 0 else 0)
     winner_character = ROBOT_CHARACTER_NAME if robot.get('hp') > 0 else HERO_CHARACTER_NAME
     print(f'{GAME_RESULTS_MESSAGE}{hero_health_info}{robot_health_info}{WIN_MESSAGE.format(winner_character)}')
 
@@ -103,7 +103,7 @@ def hero_injected_adrenaline(hero, robot):
         hero = modify_hero_health(hero, hero.get("adrenaline_power"))
         hero["adrenaline"] -= 1
         display_hero_info(HERO_INJECTED_ADRENALINE_EVENT)
-        print(display_hero_info(HERO_FINISHED_EVENT, hero.get("hp")))
+        print(display_hero_info(HERO_HEALTH_INFO, hero.get("hp")))
         display_hero_info(ADRENALINE_QTY_INFO, hero.get("adrenaline"))
         return hero, HERO_CHARACTER_NAME
     else:
@@ -126,7 +126,6 @@ def remove_shield(hero: dict) -> dict:
 
 
 def robot_turn(robot: dict, hero: dict) -> dict:
-    time.sleep(2)
     action_probability = random.randint(1, 100)
     if action_probability <= 33:
         actions = [robot_use_homing_missiles, robot_use_regular_cartridges, robot_throw_grenade, robot_jam]
@@ -147,7 +146,6 @@ def robot_use_homing_missiles(robot: dict, hero: dict) -> dict:
     display_robot_info(ROBOT_USE_HOMING_MISSILES_EVENT)
     hero = modify_hero_health(hero, -damage)
     data_for_message = [damage, hero.get("hp") if hero.get("hp") >= 0 else 0]
-    time.sleep(1)
     display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     return hero
 
@@ -159,7 +157,6 @@ def robot_use_regular_cartridges(robot: dict, hero: dict) -> dict:
         damage = robot.get("gun") - hero.get("defence")
         hero = modify_hero_health(hero, -damage)
         data_for_message = [damage, hero.get("hp") if hero.get("hp") >= 0 else 0]
-        time.sleep(1)
         display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     else:
         display_robot_info(ROBOT_MISSED_EVENT)
@@ -174,7 +171,6 @@ def robot_throw_grenade(robot: dict, hero: dict):
             damage = robot.get("gun") * 2
             hero = modify_hero_health(hero, -damage)
             data_for_message = [damage, hero.get("hp") if hero.get("hp") >= 0 else 0]
-            time.sleep(1)
             display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
         else:
             display_hero_info(HERO_REPELLED_ATTACK_EVENT)
@@ -190,7 +186,6 @@ def robot_jam() -> None:
 def modify_robot_health(robot: dict, dmg: int) -> dict:
     robot["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
-    time.sleep(1)
     display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
 
