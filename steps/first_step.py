@@ -10,12 +10,12 @@ def run() -> None:
     print(WELCOME_MESSAGE)
     robot, hero = robot_data, hero_data
     while robot.get("hp") > 0:
+        display_hero_info(HERO_ATTACKS_EVENT)
         hit_probability = random.randint(1, 100)
         if hit_probability >= 25:
             hero_gun = hero.get("gun")
             robot_defence = robot.get("defence")
             damage = hero_gun - robot_defence
-            display_hero_info(HERO_ATTACKS_EVENT)
             robot = modify_health(robot, -damage)
         else:
             display_hero_info(HERO_MISSED_EVENT)
