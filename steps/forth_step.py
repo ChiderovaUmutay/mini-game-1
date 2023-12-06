@@ -2,8 +2,9 @@ import inspect
 import random
 
 from helpers.display_functions import display_hero_info, display_robot_info
-from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, REPEAT_INPUT_MESSAGE
-from helpers.variables import HERO_FINISHED_EVENT, \
+from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, REPEAT_INPUT_MESSAGE, INPUT_MESSAGE
+from helpers.variables import robot_data, hero_data,\
+    HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
     HERO_MISSED_EVENT, \
@@ -13,7 +14,12 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     HERO_WAS_INJURED_EVENT, \
     HERO_REPELLED_ATTACK_EVENT, \
     HERO_INJECTED_ADRENALINE_EVENT, \
+    HERO_ATTACK_ACTION, \
+    HERO_DEFENSE_ACTION, \
+    HERO_PASS_ACTION, \
+    HERO_INJECTING_ADRENALINE_ACTION, \
     ADRENALINE_QTY_INFO, \
+    ADRENALINE_ENDED, \
     ROBOT_FINISHED_EVENT, \
     ROBOT_CHARACTER_NAME, \
     ROBOT_MISSES_TURN_EVENT, \
@@ -22,8 +28,7 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
     ROBOT_WAS_INJURED_EVENT, \
-    ROBOT_THROW_POISON_GRENADE, ADRENALINE_ENDED, robot_data, hero_data, HERO_ATTACK_ACTION, HERO_DEFENSE_ACTION, \
-    HERO_PASS_ACTION, HERO_INJECTING_ADRENALINE_ACTION
+    ROBOT_THROW_POISON_GRENADE
 
 
 def run() -> None:
@@ -46,8 +51,7 @@ def run() -> None:
 
 
 def hero_turn(hero: dict, robot: dict) -> (dict, str):
-    player_input = input(
-        f"Enter one of actions ({HERO_ATTACK_ACTION}, {HERO_DEFENSE_ACTION}, {HERO_INJECTING_ADRENALINE_ACTION}, {HERO_PASS_ACTION}):\n")
+    player_input = input(INPUT_MESSAGE.format(f"{HERO_ATTACK_ACTION}, {HERO_DEFENSE_ACTION}, {HERO_INJECTING_ADRENALINE_ACTION}, {HERO_PASS_ACTION}"))
     action = player_input.strip()
     if player_input == HERO_ATTACK_ACTION:
         return hero_attack(hero, robot)

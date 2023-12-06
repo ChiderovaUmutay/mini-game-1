@@ -22,7 +22,7 @@ robot_info_messages: dict = {
     "robot_throw_poison_grenade": "The robot threw a poison grenade!\n",
     "robot_jammed": "The robot is jammed!\n"
 }
-
+INPUT_MESSAGE = "Enter one of actions ({}):\n"
 REPEAT_INPUT_MESSAGE = "Please enter an action from the list provided."
 GAME_RESULTS_MESSAGE = f"{'-' * 15}GAME RESULTS{'-' * 15}\n"
 WIN_MESSAGE = "{} WON!!!"

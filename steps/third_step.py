@@ -2,8 +2,9 @@ import inspect
 import random
 
 from helpers.display_functions import display_hero_info, display_robot_info
-from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, REPEAT_INPUT_MESSAGE
-from helpers.variables import HERO_FINISHED_EVENT, \
+from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, REPEAT_INPUT_MESSAGE, INPUT_MESSAGE
+from helpers.variables import robot_data, hero_data, \
+    HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
     HERO_MISSED_EVENT, \
@@ -11,6 +12,9 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     HERO_DEFENDS_HIMSELF_EVENT, \
     HERO_DEACTIVATE_PROTECTED_FIELD_EVENT, \
     HERO_WAS_INJURED_EVENT, \
+    HERO_ATTACK_ACTION, \
+    HERO_PASS_ACTION, \
+    HERO_DEFENSE_ACTION, \
     ROBOT_FINISHED_EVENT, \
     ROBOT_CHARACTER_NAME, \
     ROBOT_MISSES_TURN_EVENT, \
@@ -18,8 +22,7 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     ROBOT_USE_REGULAR_CARTRIDGES_EVENT, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
-    ROBOT_WAS_INJURED_EVENT, \
-    robot_data, hero_data, HERO_ATTACK_ACTION, HERO_PASS_ACTION, HERO_DEFENSE_ACTION
+    ROBOT_WAS_INJURED_EVENT
 
 
 def run() -> None:
@@ -42,7 +45,7 @@ def run() -> None:
 
 
 def hero_turn(hero: dict, robot: dict) -> (dict, str):
-    player_input = input(f"Enter one of actions ({HERO_ATTACK_ACTION}, {HERO_DEFENSE_ACTION}, {HERO_PASS_ACTION}):\n")
+    player_input = input(INPUT_MESSAGE.format(f"{HERO_ATTACK_ACTION}, {HERO_DEFENSE_ACTION}, {HERO_PASS_ACTION}"))
     action = player_input
     if player_input == HERO_ATTACK_ACTION:
         robot = hero_attack(hero, robot)
