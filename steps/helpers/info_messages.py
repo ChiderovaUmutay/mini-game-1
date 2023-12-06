@@ -9,7 +9,7 @@ hero_info_messages: dict = {
     "hero_repelled_attack": "The hero repelled the attack with a protective field!\n",
     "hero_injected_adrenaline": "The hero injected adrenaline!\n",
     "adrenaline_qty_info": "The number of syringes with adrenaline in the backpack is equal to {}!\n",
-    "adrenaline_ended": "The syringes with adrenaline have run out!\nThe hero makes a second move.\n"
+    "adrenaline_ended_info": "The syringes with adrenaline have run out!\nThe hero makes a second move.\n"
 }
 
 robot_info_messages: dict = {

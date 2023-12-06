@@ -19,7 +19,7 @@ from helpers.variables import robot_data, hero_data,\
     HERO_PASS_ACTION, \
     HERO_INJECTING_ADRENALINE_ACTION, \
     ADRENALINE_QTY_INFO, \
-    ADRENALINE_ENDED, \
+    ADRENALINE_ENDED_INFO, \
     ROBOT_FINISHED_EVENT, \
     ROBOT_CHARACTER_NAME, \
     ROBOT_MISSES_TURN_EVENT, \
@@ -95,7 +95,7 @@ def hero_injected_adrenaline(hero, robot):
         display_hero_info(ADRENALINE_QTY_INFO, hero.get("adrenaline"))
         return hero, HERO_CHARACTER_NAME
     else:
-        display_hero_info(ADRENALINE_ENDED)
+        display_hero_info(ADRENALINE_ENDED_INFO)
         return hero_turn(hero, robot)
 
 

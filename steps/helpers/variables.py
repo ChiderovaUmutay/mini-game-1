@@ -9,7 +9,7 @@ HERO_DEACTIVATE_PROTECTED_FIELD_EVENT = "hero_deactivate_protected_field"
 HERO_REPELLED_ATTACK_EVENT = "hero_repelled_attack"
 HERO_INJECTED_ADRENALINE_EVENT = "hero_injected_adrenaline"
 ADRENALINE_QTY_INFO = "adrenaline_qty_info"
-ADRENALINE_ENDED = "adrenaline_ended"
+ADRENALINE_ENDED_INFO = "adrenaline_ended_info"
 
 ROBOT_CHARACTER_NAME = "Robot"
 ROBOT_WAS_INJURED_EVENT = "robot_took_damage"
