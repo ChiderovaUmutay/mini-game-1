@@ -2,10 +2,12 @@ import random
 import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
+from helpers.info_messages import WELCOME_MESSAGE, FAREWELL_MESSAGE
 from helpers.variables import HERO_ATTACKS_EVENT, HERO_MISSED_EVENT, ROBOT_WAS_INJURED_EVENT, robot_data, hero_data
 
 
 def run() -> None:
+    print(WELCOME_MESSAGE)
     robot, hero = robot_data, hero_data
     while robot.get("hp") > 0:
         hit_probability = random.randint(1, 100)
@@ -25,4 +27,7 @@ def modify_health(robot: dict, dmg: int) -> dict:
     return robot
 
 if __name__ == "__main__":
-    run()
+    try:
+        run()
+    except:
+        print(FAREWELL_MESSAGE)

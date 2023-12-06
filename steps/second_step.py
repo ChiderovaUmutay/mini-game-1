@@ -3,7 +3,7 @@ import random
 import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
-from helpers.info_messages import  GAME_RESULTS_MESSAGE, WIN_MESSAGE
+from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, FAREWELL_MESSAGE, WELCOME_MESSAGE
 from helpers.variables import HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
@@ -20,6 +20,7 @@ from helpers.variables import HERO_FINISHED_EVENT, \
 
 
 def run() -> None:
+    print(WELCOME_MESSAGE)
     robot, hero = robot_data, hero_data
     while hero.get("hp") > 0:
         robot = hero_turn(hero, robot)
@@ -104,4 +105,7 @@ def modify_hero_health(hero: dict, dmg: int) -> dict:
 
 
 if __name__ == "__main__":
-    run()
+    try:
+        run()
+    except:
+        print(FAREWELL_MESSAGE)

@@ -2,7 +2,12 @@ import inspect
 import random
 
 from helpers.display_functions import display_hero_info, display_robot_info
-from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, REPEAT_INPUT_MESSAGE, INPUT_MESSAGE
+from helpers.info_messages import GAME_RESULTS_MESSAGE, \
+    WIN_MESSAGE, \
+    REPEAT_INPUT_MESSAGE, \
+    INPUT_MESSAGE, \
+    WELCOME_MESSAGE, \
+    FAREWELL_MESSAGE
 from helpers.variables import robot_data, hero_data, \
     HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
@@ -26,6 +31,7 @@ from helpers.variables import robot_data, hero_data, \
 
 
 def run() -> None:
+    print(WELCOME_MESSAGE)
     robot, hero = robot_data, hero_data
     while hero.get("hp") > 0:
         character_data, character_name = hero_turn(hero, robot)
@@ -144,4 +150,7 @@ def modify_hero_health(hero: dict, dmg: int) -> dict:
 
 
 if __name__ == "__main__":
-    run()
+    try:
+        run()
+    except:
+        print(FAREWELL_MESSAGE)
