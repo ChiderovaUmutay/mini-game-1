@@ -3,8 +3,11 @@ import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
 from helpers.info_messages import WELCOME_MESSAGE, FAREWELL_MESSAGE, ROUND_INFO
-from helpers.variables import HERO_ATTACKS_EVENT, HERO_MISSED_EVENT, ROBOT_WAS_INJURED_EVENT, robot_data, hero_data
-
+from helpers.variables import robot_data, hero_data, \
+    HERO_MISS_PERCENTAGE, \
+    HERO_ATTACKS_EVENT, \
+    HERO_MISSED_EVENT, \
+    ROBOT_WAS_INJURED_EVENT
 
 def run() -> None:
     print(WELCOME_MESSAGE)
@@ -16,7 +19,7 @@ def run() -> None:
         time.sleep(1)
         display_hero_info(HERO_ATTACKS_EVENT)
         hit_probability = random.randint(1, 100)
-        if hit_probability >= 25:
+        if hit_probability >= HERO_MISS_PERCENTAGE:
             hero_gun = hero.get("gun")
             robot_defence = robot.get("defence")
             damage = hero_gun - robot_defence

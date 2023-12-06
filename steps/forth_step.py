@@ -10,7 +10,8 @@ from helpers.info_messages import GAME_RESULTS_MESSAGE, \
     WELCOME_MESSAGE, \
     FAREWELL_MESSAGE, \
     ROUND_INFO
-from helpers.variables import robot_data, hero_data,\
+from helpers.variables import robot_data, hero_data, \
+    HERO_MISS_PERCENTAGE, \
     HERO_HEALTH_INFO, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
@@ -83,7 +84,7 @@ def hero_turn(hero: dict, robot: dict) -> (dict, str):
 def hero_attack(hero: dict, robot: dict) -> (dict, str):
     display_hero_info(HERO_ATTACKS_EVENT)
     hit_probability = random.randint(1, 100)
-    if hit_probability >= 25:
+    if hit_probability >= HERO_MISS_PERCENTAGE:
         hero_gun = hero.get("gun")
         robot_defence = robot.get("defence")
         damage = hero_gun - robot_defence

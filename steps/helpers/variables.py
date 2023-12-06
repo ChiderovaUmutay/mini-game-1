@@ -1,4 +1,5 @@
 HERO_CHARACTER_NAME = "👽"
+HERO_MISS_PERCENTAGE = 25
 HERO_WAS_INJURED_EVENT = "hero_took_damage"
 HERO_MISSED_EVENT = "hero_missed"
 HERO_MISSES_TURN_EVENT = "hero_misses_turn"
