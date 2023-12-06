@@ -37,7 +37,9 @@ from helpers.variables import robot_data, hero_data, \
     ROBOT_JAMMED_EVENT, \
     ROBOT_WAS_INJURED_EVENT, \
     ROBOT_THROW_POISON_GRENADE, \
-    ROBOT_SKIP_TURN_PERCENTAGE
+    ROBOT_SKIP_TURN_PERCENTAGE, \
+    ROBOT_MISS_CARTRIDGES_PERCENTAGE, \
+    ROBOT_THROW_GRENADE_PERCENTAGE
 
 
 def run() -> None:
@@ -155,7 +157,7 @@ def robot_use_homing_missiles(robot: dict, hero: dict) -> dict:
 def robot_use_regular_cartridges(robot: dict, hero: dict) -> dict:
     display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
     hit_probability = random.randint(1, 100)
-    if hit_probability >= 50:
+    if hit_probability >= ROBOT_MISS_CARTRIDGES_PERCENTAGE:
         damage = robot.get("gun") - hero.get("defence")
         hero = modify_hero_health(hero, -damage)
         data_for_message = [damage, hero.get("hp") if hero.get("hp") >= 0 else 0]
@@ -168,7 +170,7 @@ def robot_use_regular_cartridges(robot: dict, hero: dict) -> dict:
 def robot_throw_grenade(robot: dict, hero: dict):
     display_robot_info(ROBOT_THROW_POISON_GRENADE)
     hit_probability = random.randint(1, 100)
-    if hit_probability <= 25:
+    if hit_probability <= ROBOT_THROW_GRENADE_PERCENTAGE:
         if hero.get("has_shield") is False:
             damage = robot.get("gun") * 2
             hero = modify_hero_health(hero, -damage)

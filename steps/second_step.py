@@ -19,7 +19,8 @@ from helpers.variables import robot_data, hero_data, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
     ROBOT_WAS_INJURED_EVENT, \
-    ROBOT_SKIP_TURN_PERCENTAGE
+    ROBOT_SKIP_TURN_PERCENTAGE, \
+    ROBOT_MISS_CARTRIDGES_PERCENTAGE
 
 
 def run() -> None:
@@ -81,7 +82,7 @@ def use_homing_missiles(robot: dict, hero: dict) -> dict:
 def use_regular_cartridges(robot: dict, hero: dict) -> dict:
     display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
     hit_probability = random.randint(1, 100)
-    if hit_probability >= 50:
+    if hit_probability >= ROBOT_MISS_CARTRIDGES_PERCENTAGE:
         robot_gun = robot.get("gun")
         hero_defence = hero.get("defence")
         damage = robot_gun - hero_defence
