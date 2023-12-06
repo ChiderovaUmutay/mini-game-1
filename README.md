@@ -1,10 +1,14 @@
-## Salam 👐🏻
+# Salam 👐🏻
 
-#### This repository presents a mini-game that simulates a battle (shootout) between an intergalactic hero and a terrorist robot. Information about the progress of the battle is displayed in the console.
+### 📖 Repository description: 
 
-#### I wrote this program to refresh my basic knowledge of Python. The functionality is implemented using Python functions.
+This repository presents a mini-game that simulates a battle (shootout) between an intergalactic hero and a terrorist robot. Information about the progress of the battle is displayed in the console.
 
-#### Below is a description of the task. I wrote each stage in a separate file.
+Below is a description of the task. I wrote each stage in a separate file.
+
+### 🎯 Purpose of the program:  
+
+I wrote this program to refresh my basic knowledge of Python. The functionality is implemented using Python functions.
 
 ## Task  📝
 
