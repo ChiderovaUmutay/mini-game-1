@@ -36,3 +36,7 @@ hero_data = {
     "adrenaline": 1,
     "adrenaline_power": 500
 }
+
+HERO_ATTACK_ACTION = "attack"
+HERO_DEFENSE_ACTION = "defense"
+HERO_PASS_ACTION = "pass"

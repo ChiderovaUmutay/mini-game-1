@@ -1,9 +1,8 @@
 import inspect
 import random
-import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
-from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE
+from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, REPEAT_INPUT_MESSAGE
 from helpers.variables import HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
@@ -20,7 +19,7 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
     ROBOT_WAS_INJURED_EVENT, \
-    robot_data, hero_data
+    robot_data, hero_data, HERO_ATTACK_ACTION, HERO_PASS_ACTION, HERO_DEFENSE_ACTION
 
 
 def run() -> None:
@@ -41,17 +40,20 @@ def run() -> None:
     winner_character = ROBOT_CHARACTER_NAME if robot.get('hp') > 0 else HERO_CHARACTER_NAME
     print(f'{GAME_RESULTS_MESSAGE}{hero_health_info}{robot_health_info}{WIN_MESSAGE.format(winner_character)}')
 
+
 def hero_turn(hero: dict, robot: dict) -> (dict, str):
-    actions = [hero_attack, hero_defence, hero_pass]
-    action = random.choice(actions)
-    if len(inspect.getfullargspec(action).args) == 2:
-        robot = action(hero, robot)
+    player_input = input(f"Enter one of actions ({HERO_ATTACK_ACTION}, {HERO_DEFENSE_ACTION}, {HERO_PASS_ACTION}):\n")
+    action = player_input
+    if player_input == HERO_ATTACK_ACTION:
+        robot = hero_attack(hero, robot)
         return robot, ROBOT_CHARACTER_NAME
-    elif len(inspect.getfullargspec(action).args) == 1:
-        hero = action(hero)
-    elif len(inspect.getfullargspec(action).args) == 0:
-        action()
-    time.sleep(5)
+    elif action == HERO_DEFENSE_ACTION:
+        hero = hero_defence(hero)
+    elif action == HERO_PASS_ACTION:
+        display_hero_info(HERO_MISSES_TURN_EVENT)
+    else:
+        print(REPEAT_INPUT_MESSAGE)
+        return hero_turn(hero, robot)
     return hero, HERO_CHARACTER_NAME
 
 
@@ -70,10 +72,6 @@ def hero_attack(hero: dict, robot: dict) -> dict:
 
 def hero_defence(hero: dict) -> dict:
     return equip_shield(hero)
-
-
-def hero_pass() -> None:
-    display_hero_info(HERO_MISSES_TURN_EVENT)
 
 
 def equip_shield(hero: dict) -> dict:
@@ -101,7 +99,6 @@ def robot_turn(robot: dict, hero: dict) -> dict:
             action()
     else:
         display_robot_info(ROBOT_MISSES_TURN_EVENT)
-    time.sleep(5)
     return hero
 
 
