@@ -11,7 +11,7 @@ from helpers.info_messages import GAME_RESULTS_MESSAGE, \
     FAREWELL_MESSAGE, \
     ROUND_INFO
 from helpers.variables import robot_data, hero_data, \
-    HERO_MISS_PERCENTAGE,\
+    HERO_MISS_PERCENTAGE, \
     HERO_HEALTH_INFO, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
@@ -30,7 +30,8 @@ from helpers.variables import robot_data, hero_data, \
     ROBOT_USE_REGULAR_CARTRIDGES_EVENT, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
-    ROBOT_WAS_INJURED_EVENT
+    ROBOT_WAS_INJURED_EVENT, \
+    ROBOT_SKIP_TURN_PERCENTAGE
 
 
 def run() -> None:
@@ -106,7 +107,7 @@ def remove_shield(hero: dict) -> dict:
 
 def robot_turn(robot: dict, hero: dict) -> dict:
     action_probability = random.randint(1, 100)
-    if action_probability <= 33:
+    if action_probability <= ROBOT_SKIP_TURN_PERCENTAGE:
         actions = [robot_use_homing_missiles, robot_use_regular_cartridges, robot_jam]
         action = random.choice(actions)
         if inspect.getfullargspec(action).args:

@@ -36,7 +36,8 @@ from helpers.variables import robot_data, hero_data, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
     ROBOT_WAS_INJURED_EVENT, \
-    ROBOT_THROW_POISON_GRENADE
+    ROBOT_THROW_POISON_GRENADE, \
+    ROBOT_SKIP_TURN_PERCENTAGE
 
 
 def run() -> None:
@@ -128,7 +129,7 @@ def remove_shield(hero: dict) -> dict:
 
 def robot_turn(robot: dict, hero: dict) -> dict:
     action_probability = random.randint(1, 100)
-    if action_probability <= 33:
+    if action_probability <= ROBOT_SKIP_TURN_PERCENTAGE:
         actions = [robot_use_homing_missiles, robot_use_regular_cartridges, robot_throw_grenade, robot_jam]
         action = random.choice(actions)
         if len(inspect.getfullargspec(action).args) > 0:
