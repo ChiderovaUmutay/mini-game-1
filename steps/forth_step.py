@@ -1,9 +1,8 @@
 import inspect
 import random
-import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
-from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE
+from helpers.info_messages import GAME_RESULTS_MESSAGE, WIN_MESSAGE, REPEAT_INPUT_MESSAGE
 from helpers.variables import HERO_FINISHED_EVENT, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
@@ -23,7 +22,8 @@ from helpers.variables import HERO_FINISHED_EVENT, \
     ROBOT_MISSED_EVENT, \
     ROBOT_JAMMED_EVENT, \
     ROBOT_WAS_INJURED_EVENT, \
-    ROBOT_THROW_POISON_GRENADE, ADRENALINE_ENDED, robot_data, hero_data
+    ROBOT_THROW_POISON_GRENADE, ADRENALINE_ENDED, robot_data, hero_data, HERO_ATTACK_ACTION, HERO_DEFENSE_ACTION, \
+    HERO_PASS_ACTION, HERO_INJECTING_ADRENALINE_ACTION
 
 
 def run() -> None:
@@ -46,20 +46,22 @@ def run() -> None:
 
 
 def hero_turn(hero: dict, robot: dict) -> (dict, str):
-    actions = [hero_attack, hero_defence, hero_pass, hero_injected_adrenaline]
-    action = random.choice(actions)
-    if len(inspect.getfullargspec(action).args) == 2:
-        character_data, character_name = action(hero, robot)
-        time.sleep(5)
-        return character_data, character_name
-    elif len(inspect.getfullargspec(action).args) == 1:
-        hero = action(hero)
-        time.sleep(5)
-        return hero, HERO_CHARACTER_NAME
-    elif len(inspect.getfullargspec(action).args) == 0:
-        action()
-        time.sleep(5)
-        return hero, HERO_CHARACTER_NAME
+    player_input = input(
+        f"Enter one of actions ({HERO_ATTACK_ACTION}, {HERO_DEFENSE_ACTION}, {HERO_INJECTING_ADRENALINE_ACTION}, {HERO_PASS_ACTION}):\n")
+    action = player_input.strip()
+    if player_input == HERO_ATTACK_ACTION:
+        return hero_attack(hero, robot)
+    elif action == HERO_INJECTING_ADRENALINE_ACTION:
+        return hero_injected_adrenaline(hero, robot)
+    elif action == HERO_DEFENSE_ACTION:
+        hero = hero_defence(hero)
+    elif action == HERO_PASS_ACTION:
+        display_hero_info(HERO_MISSES_TURN_EVENT)
+    else:
+        print(REPEAT_INPUT_MESSAGE)
+        return hero_turn(hero, robot)
+    return hero, HERO_CHARACTER_NAME
+
 
 
 def hero_attack(hero: dict, robot: dict) -> (dict, str):
@@ -77,10 +79,6 @@ def hero_attack(hero: dict, robot: dict) -> (dict, str):
 
 def hero_defence(hero: dict) -> dict:
     return equip_shield(hero)
-
-
-def hero_pass() -> None:
-    display_hero_info(HERO_MISSES_TURN_EVENT)
 
 
 def hero_injected_adrenaline(hero, robot):
@@ -122,7 +120,6 @@ def robot_turn(robot: dict, hero: dict) -> dict:
             action()
     else:
         display_robot_info(ROBOT_MISSES_TURN_EVENT)
-    time.sleep(5)
     return hero
 
 

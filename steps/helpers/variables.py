@@ -40,3 +40,4 @@ hero_data = {
 HERO_ATTACK_ACTION = "attack"
 HERO_DEFENSE_ACTION = "defense"
 HERO_PASS_ACTION = "pass"
+HERO_INJECTING_ADRENALINE_ACTION = "injecting adrenaline"
