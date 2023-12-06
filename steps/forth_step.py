@@ -16,7 +16,7 @@ from helpers.variables import robot_data, hero_data, \
     HERO_CHARACTER_NAME, \
     HERO_ATTACKS_EVENT, \
     HERO_MISSED_EVENT, \
-    HERO_MISSES_TURN_EVENT, \
+    HERO_SKIPS_TURN_EVENT, \
     HERO_DEFENDS_HIMSELF_EVENT, \
     HERO_DEACTIVATE_PROTECTED_FIELD_EVENT, \
     HERO_WAS_INJURED_EVENT, \
@@ -30,7 +30,7 @@ from helpers.variables import robot_data, hero_data, \
     ADRENALINE_ENDED_INFO, \
     ROBOT_HEALTH_INFO, \
     ROBOT_CHARACTER_NAME, \
-    ROBOT_MISSES_TURN_EVENT, \
+    ROBOT_SKIPS_TURN_EVENT, \
     ROBOT_USE_HOMING_MISSILES_EVENT, \
     ROBOT_USE_REGULAR_CARTRIDGES_EVENT, \
     ROBOT_MISSED_EVENT, \
@@ -73,7 +73,7 @@ def hero_turn(hero: dict, robot: dict) -> (dict, str):
     elif action == HERO_DEFENSE_ACTION:
         hero = hero_defence(hero)
     elif action == HERO_PASS_ACTION:
-        display_hero_info(HERO_MISSES_TURN_EVENT)
+        display_hero_info(HERO_SKIPS_TURN_EVENT)
     else:
         print(REPEAT_INPUT_MESSAGE)
         return hero_turn(hero, robot)
@@ -136,7 +136,7 @@ def robot_turn(robot: dict, hero: dict) -> dict:
         else:
             action()
     else:
-        display_robot_info(ROBOT_MISSES_TURN_EVENT)
+        display_robot_info(ROBOT_SKIPS_TURN_EVENT)
     return hero
 
 

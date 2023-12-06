@@ -2,7 +2,7 @@ hero_info_messages: dict = {
     "hero_attacks": "👽🚀 ACTION: Hero attacks!\n",
     "hero_defends_himself": "👽🚀 ACTION: The hero defends himself and activates a protective field, the strength of which is equal to {}!\n",
     "hero_injected_adrenaline": "👽🚀 ACTION: The hero injected adrenaline!\n",
-    "hero_misses_turn": "👽🚀 ACTION: The hero misses a turn!\n",
+    "hero_skips_turn": "👽🚀 ACTION: The hero skips a turn!\n",
     "hero_took_damage": "🤖📈 RESULT: HIT💥 HIT💥 HIT💥\n👽📌 INFO: The hero received {} units damage!\n",
     "hero_missed": "👽📈 RESULT: The hero missed!\n",
     "hero_repelled_attack": "👽📈 RESULT: The hero repelled the attack with a protective field!\n",
@@ -13,7 +13,7 @@ hero_info_messages: dict = {
 }
 
 robot_info_messages: dict = {
-    "robot_misses_turn": "🤖🚀 ACTION: The robot skips a turn!\n",
+    "robot_skips_turn": "🤖🚀 ACTION: The robot skips a turn!\n",
     "robot_use_homing_missiles": "🤖🚀 ACTION: The robot uses homing missiles!\n",
     "robot_use_regular_cartridges": "🤖🚀 ACTION: The robot uses regular ammunition!\n",
     "robot_throw_poison_grenade": "🤖🚀 ACTION: The robot threw a poison grenade!\n",

@@ -13,7 +13,7 @@ from helpers.variables import robot_data, hero_data,\
     HERO_WAS_INJURED_EVENT, \
     ROBOT_HEALTH_INFO, \
     ROBOT_CHARACTER_NAME, \
-    ROBOT_MISSES_TURN_EVENT, \
+    ROBOT_SKIPS_TURN_EVENT, \
     ROBOT_USE_HOMING_MISSILES_EVENT, \
     ROBOT_USE_REGULAR_CARTRIDGES_EVENT, \
     ROBOT_MISSED_EVENT, \
@@ -63,7 +63,7 @@ def robot_turn(robot: dict, hero: dict) -> dict:
         else:
             action()
     else:
-        display_robot_info(ROBOT_MISSES_TURN_EVENT)
+        display_robot_info(ROBOT_SKIPS_TURN_EVENT)
     return hero
 
 
