@@ -1,5 +1,6 @@
 import inspect
 import random
+import time
 
 from helpers.display_functions import display_hero_info, display_robot_info
 from helpers.info_messages import GAME_RESULTS_MESSAGE, \
@@ -67,12 +68,12 @@ def hero_turn(hero: dict, robot: dict) -> (dict, str):
 
 
 def hero_attack(hero: dict, robot: dict) -> dict:
+    display_hero_info(HERO_ATTACKS_EVENT)
     hit_probability = random.randint(1, 100)
     if hit_probability >= 25:
         hero_gun = hero.get("gun")
         robot_defence = robot.get("defence")
         damage = hero_gun - robot_defence
-        display_hero_info(HERO_ATTACKS_EVENT)
         robot = modify_robot_health(robot, -damage)
     else:
         display_hero_info(HERO_MISSED_EVENT)
@@ -98,6 +99,7 @@ def remove_shield(hero: dict) -> dict:
 
 
 def robot_turn(robot: dict, hero: dict) -> dict:
+    time.sleep(2)
     action_probability = random.randint(1, 100)
     if action_probability <= 33:
         actions = [robot_use_homing_missiles, robot_use_regular_cartridges, robot_jam]
@@ -121,10 +123,10 @@ def robot_use_homing_missiles(robot: dict, hero: dict) -> dict:
 
 
 def robot_use_regular_cartridges(robot: dict, hero: dict) -> dict:
+    display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
     hit_probability = random.randint(1, 100)
     if hit_probability >= 50:
         damage = robot.get("gun") - hero.get("defence")
-        display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
         hero = modify_hero_health(hero, -damage)
     else:
         display_robot_info(ROBOT_MISSED_EVENT)
@@ -138,6 +140,7 @@ def robot_jam() -> None:
 def modify_robot_health(robot: dict, dmg: int) -> dict:
     robot["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), robot.get("hp") if robot.get("hp") >= 0 else 0]
+    time.sleep(1)
     display_robot_info(ROBOT_WAS_INJURED_EVENT, data_for_message)
     return robot
 
@@ -145,6 +148,7 @@ def modify_robot_health(robot: dict, dmg: int) -> dict:
 def modify_hero_health(hero: dict, dmg: int) -> dict:
     hero["hp"] += dmg
     data_for_message = [str(dmg).replace("-", ""), hero.get("hp") if hero.get("hp") >= 0 else 0]
+    time.sleep(1)
     display_hero_info(HERO_WAS_INJURED_EVENT, data_for_message)
     return hero
 

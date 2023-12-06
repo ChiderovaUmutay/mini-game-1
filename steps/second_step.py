@@ -37,12 +37,12 @@ def run() -> None:
 
 
 def hero_turn(hero: dict, robot: dict) -> dict:
+    display_hero_info(HERO_ATTACKS_EVENT)
     hit_probability = random.randint(1, 100)
     if hit_probability >= 25:
         hero_gun = hero.get("gun")
         robot_defence = robot.get("defence")
         damage = hero_gun - robot_defence
-        display_hero_info(HERO_ATTACKS_EVENT)
         robot = modify_robot_health(robot, -damage)
     else:
         display_hero_info(HERO_MISSED_EVENT)
@@ -74,12 +74,12 @@ def use_homing_missiles(robot: dict, hero: dict) -> dict:
 
 
 def use_regular_cartridges(robot: dict, hero: dict) -> dict:
+    display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
     hit_probability = random.randint(1, 100)
     if hit_probability >= 50:
         robot_gun = robot.get("gun")
         hero_defence = hero.get("defence")
         damage = robot_gun - hero_defence
-        display_robot_info(ROBOT_USE_REGULAR_CARTRIDGES_EVENT)
         hero = modify_hero_health(hero, -damage)
     else:
         display_robot_info(ROBOT_MISSED_EVENT)
