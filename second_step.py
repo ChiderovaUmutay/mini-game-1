@@ -71,7 +71,7 @@ def robot_turn(robot: dict, hero: dict) -> dict:
 
 def use_homing_missiles(robot: dict, hero: dict) -> dict:
     robot_gun = robot.get("gun")
-    one_third_robot_gun = (robot_gun / 30) * 100
+    one_third_robot_gun = (robot_gun // 30) * 100
     hero_defence = hero.get("defence")
     damage = robot_gun + one_third_robot_gun - hero_defence
     display_robot_info(ROBOT_USE_HOMING_MISSILES_EVENT)
